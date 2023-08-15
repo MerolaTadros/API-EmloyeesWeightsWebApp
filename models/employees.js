@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Weights', { useNewUrlParser: true });
+mongoose.connect('mongodb://127.0.0.1:27017/Weights',
+{
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+},
+(err)=> {
+    if (err)
+      console.log(err);
+    else
+      console.log('connection established');
+}
+);
 const wSchema = new mongoose.Schema({
   empName: String,
   empWeight: Number,
@@ -9,4 +20,3 @@ const wSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Weights', wSchema);	
-
