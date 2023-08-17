@@ -40,9 +40,33 @@ exports.aboutus=function(req, res){
     Weight.deleteOne({empName:empToDelete}, function(err, result) {
       if (err)
         res.send(err);
-      res.end('Deleted ${empToDelete}');
+      res.end('Deleted ' + empToDelete);
     });
   };
   
+  exports.addnewdoc = function(req, res) {
+    let empName = req.body.empName;
+    let empPass = req.body.empPass;
+    const Weights = new Weight();
+    Weights.empName = empName;
+    Weights.empPass = empPass;
+    Weights.save({}, function(err) {
+      if (err)
+        res.end(err);
+      res.end(`Created ${empName}`);
+    });
+  };
+  
+  exports.updatedoc=function(req, res){
+    let empName = req.body.empName;
+    let newWeight = req.body.newWeight;
+    let query = { empName : empName };
+    let data = { $set : {empWeight : newWeight } };
+    Weight.updateOne(query, data, function(err, result) {
+      if (err)
+         res.send(err);
+       res.end(`Updated ${empName}`);
+   });  
+  }; 
   
   

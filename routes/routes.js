@@ -12,4 +12,8 @@ router.get('/getdocs', controller.getdocs);
 router.get('/getemployee/:employeeName', controller.getemployee);
 
 router. delete('/deletebyname/:employeeName', controller.deletebyname);
+
+router.post('/addnewdoc', controller.addnewdoc);
+
+router.put('/updatedoc', controller. updatedoc);	
 }

@@ -14,6 +14,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/Weights',
 const wSchema = new mongoose.Schema({
   empName: String,
   empWeight: Number,
+  empPass: String,
   created: {type: Date, default: Date.now }
 },{
 	collection:'EmployeeWeights'
