@@ -1,7 +1,12 @@
 const Weight = require('../models/employees');
+const User = require('../models/users');
+const jwt = require('jsonwebtoken');
+const path = require("path");
 exports.getdefault = function(req, res){ 
-    res.send('You are on the root route.'); 
+  res.sendFile(path.join(__dirname + '/../HTML/index.html'));
 };
+
+
 //
 exports.aboutus=function(req, res){
     res.send('You are on the about us route.');
@@ -69,4 +74,38 @@ exports.aboutus=function(req, res){
    });  
   }; 
   
-  
+  exports.addnewuser = function(req, res) {
+    let empName = req.body.empName;
+    let empPass = req.body.empPass;
+    const user = new User();
+    user.empName = empName;
+    user.empPass = empPass;
+    user.save({}, function(err) {
+      if (err)
+        res.end(err);
+      res.end(`Created ${empName}`);
+    });
+  };
+
+  exports.loginuser = function(req,res){
+    let empName = req.body.empName;
+    let empPass = req.body.empPass;
+    User.find({empName:empName}, function(err, results){
+      if (err)
+        res.end(err);
+      if(results[0].empPass == empPass){
+        jwt.sign({
+          empName:results[0].empName,
+          userID:results[0]._id
+        },
+        "mysecret",
+        {expiresIn : "1h"},
+        function(err, token){
+          if(err) throw err;
+          res.end(token);
+        })
+      } else {
+        res.end("Login failed");
+      }
+    });
+  };  

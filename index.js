@@ -21,6 +21,8 @@ app.use(express.urlencoded({extended:false})); //to see the values when returned
 
 
 app.use ('/', router)
+app.use(express.static('HTML'))
+
 app.listen(port, ()=> console.log("Listening " + port)); //lambda expression or arrow funtion instead of function instead of putting a funtion with no parameters
 
 /*const server = http.createServer(function(request, response){
