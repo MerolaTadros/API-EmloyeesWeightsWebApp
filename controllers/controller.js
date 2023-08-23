@@ -1,7 +1,10 @@
 const Weight = require('../models/employees');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
+
 const path = require("path");
+const w = require('./../controllers/winston_config');
+
 exports.getdefault = function(req, res){ 
   res.sendFile(path.join(__dirname + '/../HTML/index.html'));
 };
@@ -21,8 +24,13 @@ exports.aboutus=function(req, res){
   //
   exports.getdocs=function(req, res){
       Weight.find({}, function(err, results){
-        if (err)
-		      res.end(err);
+        if (err){
+          w.log({
+            level: 'error',
+            message: err
+          });
+          res.status(503).send('Tehnical difficulties, please check with your Administrator!')
+        }   
 		    res.json(results);
       });
     
@@ -109,3 +117,9 @@ exports.aboutus=function(req, res){
       }
     });
   };  
+
+exports.pugpage=function(req, res){
+  res.render(
+    'pughome'
+  )
+};
